@@ -5,7 +5,7 @@ import { JwtService } from '@nestjs/jwt'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
 
-describe('Create question (E2E)', () => {
+describe('Fetch recent questions (E2E)', () => {
   let app: INestApplication
   let prisma: PrismaService
   let jwt: JwtService
@@ -21,7 +21,7 @@ describe('Create question (E2E)', () => {
 
     await app.init()
   })
-  test('[POST] /questions', async () => {
+  test('[GET] /questions', async () => {
     const user = await prisma.user.create({
       data: {
         name: 'John Doe',
@@ -32,22 +32,41 @@ describe('Create question (E2E)', () => {
 
     const accesToken = jwt.sign({ sub: user.id })
 
-    const response = await request(app.getHttpServer())
-      .post('/questions')
-      .set('Authorization', `Bearer ${accesToken}`)
-      .send({
-        title: 'New Question',
-        content: 'new Content',
-      })
-
-    expect(response.statusCode).toBe(201)
-
-    const questionOnDatabase = await prisma.question.findFirst({
-      where: {
-        title: 'New Question',
-      },
+    await prisma.question.createMany({
+      data: [
+        {
+          title: 'New Question',
+          slug: 'new-question',
+          content: 'New Content',
+          authorId: user.id,
+        },
+        {
+          title: 'New Question 2',
+          slug: 'new-question-2',
+          content: 'New Content 2',
+          authorId: user.id,
+        },
+        {
+          title: 'New Question 3',
+          slug: 'new-question-3',
+          content: 'New Content 3',
+          authorId: user.id,
+        },
+      ],
     })
 
-    expect(questionOnDatabase).toBeTruthy()
+    const response = await request(app.getHttpServer())
+      .get('/questions')
+      .set('Authorization', `Bearer ${accesToken}`)
+      .send()
+
+    expect(response.statusCode).toBe(200)
+    expect(response.body).toEqual({
+      questions: [
+        expect.objectContaining({ title: 'New Question' }),
+        expect.objectContaining({ title: 'New Question 2' }),
+        expect.objectContaining({ title: 'New Question 3' }),
+      ],
+    })
   })
 })
