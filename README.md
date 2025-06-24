@@ -17,3 +17,6 @@
 - Tudo que não for um controller, provavelmente será um service/provider
 - Tudo que não receber uma requisição http
 - Tudo que for necessário injetar em outras classes é um servide/provider
+
+### Mappers
+- Classes responsáveis por converter uma entidade em um formato de uma camada para o formato de outra comada
