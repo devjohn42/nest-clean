@@ -10,7 +10,11 @@ interface DeleteAnswerUseCaseRequest {
 
 type DeleteAnswerUseCaseResponse = Either<
   ResourceNotFoundError | NotAllowedError,
+<<<<<<< HEAD
   null
+=======
+  object
+>>>>>>> 8fb400ddae2bd6989ec5019b8c3d484d82232597
 >
 
 export class DeleteAnswerUseCase {
@@ -31,6 +35,10 @@ export class DeleteAnswerUseCase {
     }
     await this.answerRepository.delete(answer)
 
+<<<<<<< HEAD
     return right(null)
+=======
+    return right({})
+>>>>>>> 8fb400ddae2bd6989ec5019b8c3d484d82232597
   }
 }
