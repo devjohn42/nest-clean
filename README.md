@@ -20,3 +20,6 @@
 
 ### Mappers
 - Classes responsáveis por converter uma entidade em um formato de uma camada para o formato de outra comada
+
+##### undefined => valor inexistente
+##### null => valor não preenchido
