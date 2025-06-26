@@ -26,3 +26,4 @@
 
 ### Presenter
 - Transformar e formatar os dados da camada de domínio para que eles sejam retornados pela camada HTTP (ou outro tipo de interface), no formato esperado pelo cliente (por exemplo, o front-end).
+- Específico da camada HTTP

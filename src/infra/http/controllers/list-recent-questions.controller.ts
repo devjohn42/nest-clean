@@ -3,6 +3,7 @@ import { JwtAuthGuard } from '@/infra/auth/jwt-auth.guard'
 import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation.pipe'
 import { Controller, Get, Query, UseGuards } from '@nestjs/common'
 import { z } from 'zod'
+import { QuestionPresenter } from '../presenters/question-presenter'
 
 const pageQueryParamSchema = z
   .string()
@@ -22,10 +23,14 @@ export class ListRecentQuestionsController {
 
   @Get()
   async handle(@Query('page', queryValidationPipe) page: PageQueryParamSchema) {
-    const questions = await this.listRecentQuestions.execute({
+    const result = await this.listRecentQuestions.execute({
       page,
     })
 
-    return { questions }
+    if (result.isLeft() || !result.value?.questions) throw new Error()
+
+    const questions = result.value?.questions
+
+    return { questions: questions.map(QuestionPresenter.toHTTP) }
   }
 }
