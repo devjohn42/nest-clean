@@ -6,9 +6,9 @@ POST {{baseUrl}}/accounts
 Content-Type: application/json
 
 {
-   "name": "Mark",
-   "email": "mark@gmail.com",
-   "password": "123456"
+   "name": "John Doe",
+   "email": "jd@gmail.com",
+   "password": "654321"
 }
 
 ###
@@ -18,8 +18,8 @@ POST {{baseUrl}}/sessions
 Content-Type: application/json
 
 {
-   "email": "sam@gmail.com",
-   "password": "123456"
+   "email": "jd@gmail.com",
+   "password": "654321"
 }
 
 ###
@@ -30,8 +30,8 @@ Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
 {
-   "title": "Sam question 2",
-   "content": "Question 2 content"
+   "title": "John question",
+   "content": "Question content"
 }
 
 ###
