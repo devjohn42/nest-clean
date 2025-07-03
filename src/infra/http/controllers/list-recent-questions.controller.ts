@@ -1,7 +1,7 @@
 import { ListRecentQuestionsUseCase } from '@/domain/forum/application/use-cases/list-recent-questions'
 import { JwtAuthGuard } from '@/infra/auth/jwt-auth.guard'
 import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation.pipe'
-import { Controller, Get, Query, UseGuards } from '@nestjs/common'
+import { BadRequestException, Controller, Get, Query, UseGuards } from '@nestjs/common'
 import { z } from 'zod'
 import { QuestionPresenter } from '../presenters/question-presenter'
 
@@ -19,7 +19,7 @@ const queryValidationPipe = new ZodValidationPipe(pageQueryParamSchema)
 @Controller('/questions')
 @UseGuards(JwtAuthGuard)
 export class ListRecentQuestionsController {
-  constructor(private listRecentQuestions: ListRecentQuestionsUseCase) {}
+  constructor(private listRecentQuestions: ListRecentQuestionsUseCase) { }
 
   @Get()
   async handle(@Query('page', queryValidationPipe) page: PageQueryParamSchema) {
@@ -27,7 +27,10 @@ export class ListRecentQuestionsController {
       page,
     })
 
-    if (result.isLeft() || !result.value?.questions) throw new Error()
+    if (result.isLeft()) {
+      throw new BadRequestException()
+    }
+
 
     const questions = result.value?.questions
 
