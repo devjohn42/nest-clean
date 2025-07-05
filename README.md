@@ -32,3 +32,8 @@
 
 - Um implementação fictícia (repositories)
 - Dentro do contexto de testes é quando se cria uma classe, que implementa um contrato
+
+### Polimorfismo no DB
+
+- Uma tebela pode armazenar dois tipos de informações
+- Comment Answer / Comment Question
