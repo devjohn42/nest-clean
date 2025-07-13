@@ -30,7 +30,7 @@ describe('Get question by slug (E2E)', () => {
   test('[GET] /questions/:slug', async () => {
     const user = await studentFactory.makePrismaStudent()
 
-    const accesToken = jwt.sign({ sub: user.id.toString() })
+    const accessToken = jwt.sign({ sub: user.id.toString() })
 
     await questionFactory.makePrismaQuestion({
       authorId: user.id,
@@ -40,7 +40,7 @@ describe('Get question by slug (E2E)', () => {
 
     const response = await request(app.getHttpServer())
       .get(`/questions/new-question`)
-      .set('Authorization', `Bearer ${accesToken}`)
+      .set('Authorization', `Bearer ${accessToken}`)
       .send()
 
     expect(response.statusCode).toBe(200)

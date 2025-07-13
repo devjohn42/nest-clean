@@ -8,7 +8,7 @@ import { QuestionFactory } from 'test/factories/make-question'
 import { StudentFactory } from 'test/factories/make-student'
 import { AppModule } from '../../app.module'
 
-describe('Delete question (E2E)', () => {
+describe('Answer question (E2E)', () => {
   let app: INestApplication
   let prisma: PrismaService
   let studentFactory: StudentFactory
@@ -29,7 +29,7 @@ describe('Delete question (E2E)', () => {
 
     await app.init()
   })
-  test('[DELETE] /questions/:id', async () => {
+  test('[POST] /questions/:questionId/answers', async () => {
     const user = await studentFactory.makePrismaStudent()
 
     const accessToken = jwt.sign({ sub: user.id.toString() })
@@ -41,18 +41,24 @@ describe('Delete question (E2E)', () => {
     const questionId = question.id.toString()
 
     const response = await request(app.getHttpServer())
-      .delete(`/questions/${questionId}`)
+      .post(`/questions/${questionId}/answers`)
       .set('Authorization', `Bearer ${accessToken}`)
-      .send()
+      .send({
+        content: 'New answer',
+      })
 
-    expect(response.statusCode).toBe(204)
+    if (response.statusCode !== 201) {
+      console.error('Response body:', response.body)
+    }
 
-    const questionOnDatabase = await prisma.question.findUnique({
+    expect(response.statusCode).toBe(201)
+
+    const answerOnDatabase = await prisma.answer.findFirst({
       where: {
-        id: questionId
+        content: 'New answer',
       },
     })
 
-    expect(questionOnDatabase).toBeNull()
+    expect(answerOnDatabase).toBeTruthy()
   })
 })

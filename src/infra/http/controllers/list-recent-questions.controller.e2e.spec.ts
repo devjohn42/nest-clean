@@ -29,7 +29,7 @@ describe('Fetch recent questions (E2E)', () => {
   test('[GET] /questions', async () => {
     const user = await studentFactory.makePrismaStudent()
 
-    const accesToken = jwt.sign({ sub: user.id.toString() })
+    const accessToken = jwt.sign({ sub: user.id.toString() })
 
     await Promise.all([
       questionFactory.makePrismaQuestion({ authorId: user.id, title: 'New Question' }),
@@ -38,7 +38,7 @@ describe('Fetch recent questions (E2E)', () => {
 
     const response = await request(app.getHttpServer())
       .get('/questions')
-      .set('Authorization', `Bearer ${accesToken}`)
+      .set('Authorization', `Bearer ${accessToken}`)
       .send()
 
     expect(response.statusCode).toBe(200)

@@ -32,7 +32,7 @@ describe('Edit question (E2E)', () => {
   test('[PUT] /questions/:id', async () => {
     const user = await studentFactory.makePrismaStudent()
 
-    const accesToken = jwt.sign({ sub: user.id.toString() })
+    const accessToken = jwt.sign({ sub: user.id.toString() })
 
     const question = await questionFactory.makePrismaQuestion({
       authorId: user.id
@@ -42,7 +42,7 @@ describe('Edit question (E2E)', () => {
 
     const response = await request(app.getHttpServer())
       .put(`/questions/${questionId}`)
-      .set('Authorization', `Bearer ${accesToken}`)
+      .set('Authorization', `Bearer ${accessToken}`)
       .send({
         title: 'New Question',
         content: 'new Content',

@@ -7,7 +7,6 @@ import { BadRequestException, Body, Controller, Param, Post } from '@nestjs/comm
 import { z } from 'zod'
 
 const answerQuestionBodySchema = z.object({
-  title: z.string(),
   content: z.string(),
 })
 

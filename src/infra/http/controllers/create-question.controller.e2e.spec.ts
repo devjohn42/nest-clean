@@ -29,11 +29,11 @@ describe('Create question (E2E)', () => {
   test('[POST] /questions', async () => {
     const user = await studentFactory.makePrismaStudent()
 
-    const accesToken = jwt.sign({ sub: user.id.toString() })
+    const accessToken = jwt.sign({ sub: user.id.toString() })
 
     const response = await request(app.getHttpServer())
       .post('/questions')
-      .set('Authorization', `Bearer ${accesToken}`)
+      .set('Authorization', `Bearer ${accessToken}`)
       .send({
         title: 'New Question',
         content: 'new Content',
