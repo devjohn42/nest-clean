@@ -29,9 +29,9 @@ export class EditAnswerController {
 
     const result = await this.editAnswer.execute({
       content,
+      answerId,
       authorId: userId,
       attachmentsIds: [],
-      answerId,
     })
 
     if (result.isLeft()) {
