@@ -2,25 +2,25 @@ import { Either, right } from '@/core/either'
 import { QuestionComment } from '../../enterprise/entities/question-comment'
 import { QuestionCommentsRepository } from '../repositories/question-comments-repository'
 
-interface ListQuestionCommentsRequest {
+interface FetchQuestionCommentsRequest {
   questionId: string
   page: number
 }
 
-type ListQuestionCommentsResponse = Either<
+type FetchQuestionCommentsResponse = Either<
   null,
   {
     questionComments: QuestionComment[]
   }
 >
 
-export class ListQuestionCommentsUseCase {
-  constructor(private questionCommentsRepository: QuestionCommentsRepository) {}
+export class FetchQuestionCommentsUseCase {
+  constructor(private questionCommentsRepository: QuestionCommentsRepository) { }
 
   async execute({
     questionId,
     page,
-  }: ListQuestionCommentsRequest): Promise<ListQuestionCommentsResponse> {
+  }: FetchQuestionCommentsRequest): Promise<FetchQuestionCommentsResponse> {
     const questionComments =
       await this.questionCommentsRepository.findManyByQuestionId(questionId, {
         page,

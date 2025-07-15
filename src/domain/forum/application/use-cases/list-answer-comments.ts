@@ -2,27 +2,27 @@ import { Either, right } from '@/core/either'
 import { InMemoryAnswerCommentsRepository } from 'test/repositories/in-memory-answer-comments-repository'
 import { AnswerComment } from '../../enterprise/entities/answer-comment'
 
-interface ListAnswerCommentsRequest {
+interface FetchAnswerCommentsRequest {
   answerId: string
   page: number
 }
 
-type ListAnswerCommentsResponse = Either<
+type FetchAnswerCommentsResponse = Either<
   null,
   {
     answerComments: AnswerComment[]
   }
 >
 
-export class ListAnswerCommentsUseCase {
+export class FetchAnswerCommentsUseCase {
   constructor(
     private answerCommentsRepository: InMemoryAnswerCommentsRepository,
-  ) {}
+  ) { }
 
   async execute({
     answerId,
     page,
-  }: ListAnswerCommentsRequest): Promise<ListAnswerCommentsResponse> {
+  }: FetchAnswerCommentsRequest): Promise<FetchAnswerCommentsResponse> {
     const answerComments =
       await this.answerCommentsRepository.findManyByAnswerId(answerId, {
         page,

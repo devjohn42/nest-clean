@@ -1,23 +1,24 @@
 import { makeQuestion } from 'test/factories/make-question'
 import { InMemoryQuestionAttachmentsRepository } from 'test/repositories/in-memory-question-attachments-repository'
 import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions-repository'
-import { ListRecentQuestionsUseCase } from './list-recent-questions'
+import { FetchRecentQuestionsUseCase } from './list-recent-questions'
+
 
 let inMemoryQuestionsRepository: InMemoryQuestionsRepository
 let inMemoryQuestionAttachmentsRepository: InMemoryQuestionAttachmentsRepository
-let sut: ListRecentQuestionsUseCase
+let sut: FetchRecentQuestionsUseCase
 
-describe('List Recent Questions', () => {
+describe('Fetch Recent Questions', () => {
   beforeEach(() => {
     inMemoryQuestionAttachmentsRepository =
       new InMemoryQuestionAttachmentsRepository()
     inMemoryQuestionsRepository = new InMemoryQuestionsRepository(
       inMemoryQuestionAttachmentsRepository,
     )
-    sut = new ListRecentQuestionsUseCase(inMemoryQuestionsRepository)
+    sut = new FetchRecentQuestionsUseCase(inMemoryQuestionsRepository)
   })
 
-  it('should be able to list recente questions', async () => {
+  it('should be able to fetch recente questions', async () => {
     await inMemoryQuestionsRepository.create(
       makeQuestion({ createdAt: new Date(2025, 5, 12) }), // 2º
     )
@@ -39,7 +40,7 @@ describe('List Recent Questions', () => {
     ])
   })
 
-  it('should be able to list paginated recente questions', async () => {
+  it('should be able to fetch paginated recente questions', async () => {
     for (let i = 1; i <= 21; i++) {
       await inMemoryQuestionsRepository.create(
         makeQuestion({ createdAt: new Date(2025, 5, 12) }),
