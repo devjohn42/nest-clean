@@ -4,7 +4,7 @@ import { Injectable } from '@nestjs/common'
 import { PrismaAnswerAttachmentMapper } from '../mappers/prisma-answer-attachment-mapper'
 import { PrismaService } from '../prisma.service'
 
-Injectable()
+@Injectable()
 export class PrismaAnswerAttachmentsRepository
   implements AnswerAttachmentsRepository {
   constructor(private prisma: PrismaService) { }
