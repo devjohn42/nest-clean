@@ -2,6 +2,7 @@ import { FetchQuestionAnswersUseCase } from '@/domain/forum/application/use-case
 import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation.pipe'
 import { BadRequestException, Controller, Get, Param, Query } from '@nestjs/common'
 import { z } from 'zod'
+import { AnswerPresenter } from '../presenters/answer-presenter'
 
 const pageQueryParamSchema = z
   .string()
@@ -35,6 +36,6 @@ export class FetchQuestionAnswersController {
 
     const answers = result.value?.answers
 
-    return { answers }
+    return { answers: answers.map(AnswerPresenter.toHTTP) }
   }
 }
