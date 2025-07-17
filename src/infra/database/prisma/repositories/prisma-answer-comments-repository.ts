@@ -5,7 +5,7 @@ import { Injectable } from '@nestjs/common'
 import { PrismaAnswerCommentMapper } from '../mappers/prisma-answer-comment-mapper'
 import { PrismaService } from '../prisma.service'
 
-Injectable()
+@Injectable()
 export class PrismaAnswerCommentsRepository implements AnswerCommentRepository {
   constructor(private prisma: PrismaService) { }
 
