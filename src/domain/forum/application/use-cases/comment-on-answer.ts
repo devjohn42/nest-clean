@@ -3,7 +3,7 @@ import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { ResourceNotFoundError } from '@/core/errors/errors/resource-not-found-error'
 import { Injectable } from '@nestjs/common'
 import { AnswerComment } from '../../enterprise/entities/answer-comment'
-import { AnswerCommentRepository } from '../repositories/answer-comments-repository'
+import { AnswerCommentsRepository } from '../repositories/answer-comments-repository'
 import { AnswersRepository } from '../repositories/answers-repository'
 
 interface CommentOnAnswerUseCaseRequest {
@@ -23,7 +23,7 @@ type CommentOnAnswerUseCaseResponse = Either<
 export class CommentOnAnswerUseCase {
   constructor(
     private answersRepository: AnswersRepository,
-    private answerCommentRepository: AnswerCommentRepository,
+    private answerCommentsRepository: AnswerCommentsRepository,
   ) { }
 
   async execute({
@@ -43,7 +43,7 @@ export class CommentOnAnswerUseCase {
       content,
     })
 
-    await this.answerCommentRepository.create(answerComment)
+    await this.answerCommentsRepository.create(answerComment)
 
     return right({ answerComment })
   }
