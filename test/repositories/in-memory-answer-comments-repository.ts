@@ -1,10 +1,9 @@
 import { PaginationParams } from '@/core/share-repo/pagination-params'
-import { AnswerCommentRepository } from '@/domain/forum/application/repositories/answer-comments-repository'
+import { AnswerCommentsRepository } from '@/domain/forum/application/repositories/answer-comments-repository'
 import { AnswerComment } from '@/domain/forum/enterprise/entities/answer-comment'
 
 export class InMemoryAnswerCommentsRepository
-  implements AnswerCommentRepository
-{
+  implements AnswerCommentsRepository {
   public answersComment: AnswerComment[] = []
 
   async create(answerComment: AnswerComment) {
