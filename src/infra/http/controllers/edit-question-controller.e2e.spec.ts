@@ -88,8 +88,6 @@ describe('Edit question (E2E)', () => {
       }
     })
 
-    console.log(attachmentsOnDataBase)
-
     expect(attachmentsOnDataBase).toHaveLength(2)
     expect(attachmentsOnDataBase).toEqual(expect.arrayContaining([
       expect.objectContaining({
