@@ -60,6 +60,6 @@ export class InMemoryAnswersRepository implements AnswersRepository {
 
     this.answers.splice(answerIndex, 1)
 
-    this.answerAttachmentsRepository.deleteManyByAnswerId(answer.id.toString())
+    await this.answerAttachmentsRepository.deleteManyByAnswerId(answer.id.toString())
   }
 }
