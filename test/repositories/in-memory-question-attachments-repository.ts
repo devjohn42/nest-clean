@@ -5,6 +5,7 @@ export class InMemoryQuestionAttachmentsRepository
   implements QuestionAttachmentsRepository {
 
   public questionsComment: QuestionAttachment[] = []
+
   async createMany(attachments: QuestionAttachment[]): Promise<void> {
     this.questionsComment.push(...attachments)
   }

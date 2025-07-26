@@ -2,7 +2,7 @@ import { CreateQuestionUseCase } from '@/domain/forum/application/use-cases/crea
 import { CurrentUser } from '@/infra/auth/current-user.decorator'
 import { UserPayload } from '@/infra/auth/jwt-strategy'
 import { ZodValidationPipe } from '@/infra/http/pipes/zod-validation.pipe'
-import { BadRequestException, Body, Controller, Post } from '@nestjs/common'
+import { BadRequestException, Body, Controller, HttpCode, Post } from '@nestjs/common'
 import { z } from 'zod'
 
 const createQuestionBodySchema = z.object({
@@ -20,6 +20,7 @@ export class CreateQuestionController {
   constructor(private createQuestion: CreateQuestionUseCase) { }
 
   @Post()
+  @HttpCode(201)
   async handle(
     @Body(bodyValidationPipe) body: CreateQuestionBodySchema,
     @CurrentUser() user: UserPayload,
