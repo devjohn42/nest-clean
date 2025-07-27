@@ -37,3 +37,9 @@
 
 - Uma tebela pode armazenar dois tipos de informações
 - Comment Answer / Comment Question
+
+### Problemas do REST
+
+- Over fetching -> Retorna informações demais do back-end em rotas que não precisam da todas as informações
+
+- Under fetching -> requisições que retornam poucas informações, sendo necessário realizar muitas requisições para ter todos as dados em tela
