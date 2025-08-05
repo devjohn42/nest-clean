@@ -1,3 +1,4 @@
+import { DomainEvents } from '@/core/events/domain-events'
 import { DatabaseModule } from '@/infra/database/database.module'
 import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { INestApplication } from '@nestjs/common'
@@ -31,6 +32,8 @@ describe('On question best answer chosen (E2E)', () => {
     questionFactory = moduleRef.get(QuestionFactory)
     answerFactory = moduleRef.get(AnswerFactory)
     jwt = moduleRef.get(JwtService)
+
+    DomainEvents.shouldRun = true
 
     await app.init()
   })
