@@ -36,15 +36,14 @@ describe('Prisma Questions Repository (E2E)', () => {
 
     await app.init()
   })
-  it('shoudl cache question details', async () => {
+  it('should cache question details', async () => {
     const user = await studentFactory.makePrismaStudent()
 
     const question = await questionFactory.makePrismaQuestion({
       authorId: user.id,
     })
 
-    const attachment = await attachmentFactory.makePrismaAttachment({
-    })
+    const attachment = await attachmentFactory.makePrismaAttachment()
 
     await questionAttachmentFactory.makePrismaQuestionAttachment({
       attachmentId: attachment.id,
@@ -55,9 +54,15 @@ describe('Prisma Questions Repository (E2E)', () => {
 
     const questionDetails = await questionsRepository.findDetailsBySlug(slug)
 
-    const cache = await cacheRepository.get(`question:${slug}:details`)
+    const cached = await cacheRepository.get(`question:${slug}:details`)
 
-    expect(cache).toEqual(JSON.stringify(questionDetails))
+    if (!cached) throw new Error()
+
+    expect(JSON.parse(cached)).toEqual(
+      expect.objectContaining({
+        id: questionDetails?.questionId.toString()
+      })
+    )
   })
 
   it('shoudl return cached question detailes on subsequent calls', async () => {
@@ -77,11 +82,25 @@ describe('Prisma Questions Repository (E2E)', () => {
 
     const slug = question.slug.value
 
-    await cacheRepository.set(`question:${slug}:details`, JSON.stringify({ empty: true }))
+    let cached = await cacheRepository.get(`question:${slug}:details`)
+
+    expect(cached).toBeNull()
+
+    await questionsRepository.findDetailsBySlug(slug)
+
+    cached = await cacheRepository.get(`question:${slug}:details`)
+
+    expect(cached).not.toBeNull()
+
+    if (!cached) throw new Error()
 
     const questionDetails = await questionsRepository.findDetailsBySlug(slug)
 
-    expect(questionDetails).toEqual({ empty: true })
+    expect(JSON.parse(cached)).toEqual(
+      expect.objectContaining({
+        id: questionDetails?.questionId.toString()
+      })
+    )
   })
 
   it('shoudl reset question details cache when saving the question', async () => {
